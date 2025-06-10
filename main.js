@@ -1,5 +1,6 @@
 // OK, YOU KNOW WHAT? FINE, YOU WIN. I'M GONNA BUNDLE ALL THE STUPID FUCKING DICTIONARY INSIDE THIS ENTIRE FILE.
 // Blud on crashout era frfr
+// for your infomation this is mine
 const dictionary = {
   "t1-items":  [
 	{
@@ -2442,6 +2443,7 @@ let placedItems = [];
 let currentItem = null;
 let currentMode = "build";
 let totalCost = 0;
+let totalPollution = 0;
 
 let previewRotation = 0;
 let mouseWorldX = 0;
@@ -2474,6 +2476,7 @@ function loadItems() {
       itemDiv.dataset.width = item.width;
       itemDiv.dataset.height = item.height;
       itemDiv.dataset.color = item.color;
+	  itemDiv.dataset.pollution = item.pollution;
       itemDiv.textContent = `${item.name} - $${item.price}`;
       
       const img = document.createElement("img");
@@ -2810,19 +2813,23 @@ canvas.addEventListener("click", e => {
     });
 
     totalCost += currentItem.price;
+	totalPollution += currentItem.pollution;
     showNotification(`+$${currentItem.price}`, 5000);
     document.getElementById("totalCost").innerHTML = `<i>Total: $${totalCost}</i>`;
+	document.getElementById("totalPollution").innerHTML = `<i>Pollution: ${totalPollution}%/h</i>`;
     drawGrid();
   } else if (currentMode === "delete") {
     const clickedItem = getItemAt(mouseWorldX, mouseWorldY);
-    
+
     if (highlightedItem === clickedItem && clickedItem !== null) {
       const itemIndex = placedItems.indexOf(clickedItem);
       if (itemIndex > -1) {
         totalCost -= clickedItem.price;
+		totalPollution -= clickedItem.pollution;
         placedItems.splice(itemIndex, 1);
-        showNotification(`-$${currentItem.price}`, 5000);
-        document.getElementById("totalCost").innerHTML = `<i>Total: $${totalCost}<i>`;
+        showNotification(`-$${clickedItem.price}`, 5000);
+        document.getElementById("totalCost").innerHTML = `<i>Total: $${totalCost}</i>`;
+		document.getElementById("totalPollution").innerHTML = `<i>Pollution: ${totalPollution}%/h</i>`;
       }
       highlightedItem = null;
     } else {
@@ -2832,6 +2839,8 @@ canvas.addEventListener("click", e => {
     drawGrid();
   }
 });
+
+totalPollution = Math.max(0, totalPollution);
 
 canvas.addEventListener("wheel", e => {
   e.preventDefault();
