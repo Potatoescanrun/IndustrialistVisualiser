@@ -191,6 +191,25 @@ canvas {
   font-style: normal !important;
 }
 
+#totalPollution {
+  position: fixed;
+  bottom: 8px;
+  right: 8px;
+  font-size: 18px;
+  background: #FFFFFF;
+  padding: 6px 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px #0003;
+}
+
+#totalPollution i {
+  background: linear-gradient(90deg, #1e1a4d, #FFFFFF);
+  font-style: italic;
+  -webkit-background-clip: text !important;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 #tierselector {
   position: fixed;
   left: 173px;
